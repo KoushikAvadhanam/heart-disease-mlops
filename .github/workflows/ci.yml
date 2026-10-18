@@ -19,6 +19,10 @@ jobs:
       - name: Lint (flake8)
         run: flake8 src test
       - name: Unit tests
+        env:
+          PYTHONPATH: .
+        run: pytest -v --junitxml=test-report.xml
+
         run: pytest -v --junitxml=test-report.xml
       - name: Upload test report
         if: always()
