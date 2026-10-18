@@ -3,14 +3,14 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app/src \
-    MODEL_PATH=/app/models/model.joblib
+    MODEL_PATH=/app/models/heart_disease_pipeline.joblib
 
 WORKDIR /app
 COPY requirements-serve.txt .
 RUN pip install --no-cache-dir -r requirements-serve.txt
 
 COPY src/ src/
-COPY models/model.joblib models/model.joblib
+COPY models/heart_disease_pipeline.joblib models/heart_disease_pipeline.joblib
 
 RUN useradd --create-home appuser
 USER appuser
