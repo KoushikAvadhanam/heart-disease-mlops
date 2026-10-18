@@ -210,13 +210,9 @@ def main():
             # Log the complete fitted pipeline
 
             mlflow.sklearn.log_model(
-                pipeline,
-                name="model",
-                skops_trusted_types=[
-                    "numpy.dtype",
-                    "sklearn.tree._tree.Tree",
-                ],
-            )
+                    pipeline,
+                    artifact_path="model",
+                )
         print(f"MLflow logging completed for {name}")
 
         results.append({
