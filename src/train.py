@@ -3,7 +3,6 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-import json
 import mlflow
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -28,9 +27,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 
-
 def main():
-    # Resolve paths relative to this script
     project_root = Path(__file__).resolve().parent.parent
     data_path = project_root / "data" / "raw" / "heart_disease_raw.csv"
     models_dir = project_root / "models"
@@ -48,12 +45,9 @@ def main():
 
     # Continue with your existing code
     df = pd.read_csv(data_path)
-
-
     # Load original data and define binary target.
     df = pd.read_csv(data_path)
     df["target"] = (df["num"] > 0).astype(int)
-
     # Do not use num: it directly determines target.
     X = df.drop(columns=["num", "target"])
     y = df["target"]
@@ -140,12 +134,10 @@ def main():
             n_jobs=-1,
             error_score="raise",
         )
-
         cv_summary = {
             metric: cv_results[f"test_{metric}"].mean()
             for metric in scoring
         }
-
         # Fit only on the training split before evaluating the test split.
         pipeline.fit(X_train, y_train)
         predictions = pipeline.predict(X_test)
@@ -161,8 +153,6 @@ def main():
             ),
             "test_roc_auc": roc_auc_score(y_test, probabilities),
         }
-
-
         # Log experiment details to MLflow
         with mlflow.start_run(run_name=name):
             mlflow.log_params({
@@ -227,9 +217,6 @@ def main():
                     "sklearn.tree._tree.Tree",
                 ],
             )
-
-
-
         print(f"MLflow logging completed for {name}")
 
         results.append({
@@ -272,7 +259,7 @@ def main():
 
     print("\n" + "=" * 60)
     print(f"Selected model: {best_name}")
-    print(f"Selection criterion: highest mean CV ROC-AUC")
+    print("Selection criterion: highest mean CV ROC-AUC")
     print(f"Saved model pipeline to: {model_path}")
     print(f"Saved comparison results to: {results_dir / 'model_comparison.csv'}")
     print("=" * 60)
