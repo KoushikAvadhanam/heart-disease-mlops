@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+*.py[cod]
+mlruns/
+mlflow.db
+data/raw_cleveland.data
+logs/
+.venv/
+.ipynb_checkpoints/

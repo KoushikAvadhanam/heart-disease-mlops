@@ -1,0 +1,12 @@
+.git
+.github
+mlruns
+data
+test
+notebooks
+screenshots
+docs
+artifacts
+logs
+__pycache__
+*.md
